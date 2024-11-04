@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
 
 const cardImages = [
-  {"src": "/img/helmet-1.png"},
-  {"src": "/img/potion-1.png"},
-  {"src": "/img/ring-1.png"},
-  {"src": "/img/sword-1.png"},
-  {"src": "/img/scroll-1.png"},
-  {"src": "/img/shield-1.png"}  
-]
+  { "src": "/img/helmet-1.png" },
+  { "src": "/img/potion-1.png" },
+  { "src": "/img/ring-1.png" },
+  { "src": "/img/sword-1.png" },
+  { "src": "/img/scroll-1.png" },
+  { "src": "/img/shield-1.png" }
+];
 
 function App() {
+  const [cards, setCards] = useState([]);
+  const [turns, setTurns] = useState(0);
 
-  const [cards, SetCards] = useState([])
-  const [turns, SetTurns] = useState(0)
-
-  const shuffleCards =  () => {
+  const shuffleCards = () => {
     const shuffledCards = [...cardImages, ...cardImages]
+      .sort(() => Math.random() - 0.5)
+      .map((card) => ({ ...card, id: Math.random() }));
+    setCards(shuffledCards);
+    setTurns(0);
+  };
 
-      .sort(()  => Math.random() - 0.5)
-      .map((card) => ({...card, id: Math.random()}))
-      setCards(shuffledCards)
-      setTurns(0)
-    }
+  // Shuffle cards when the component mounts
+  useEffect(() => {
+    shuffleCards();
+  }, []);
 
   return (
     <div className="App">
       <h1>Magic Match</h1>
-      <button>New Game</button>
+      <button onClick={shuffleCards}>New Game</button>
+      <div className='card-grid'>
+        {cards.map(card => (
+          <div className='card' key={card.id}>
+            <div>
+              <img className='front' src={card.src} alt="card front" />
+              <img className='back' src="/img/cover.png" alt="card back" />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-export default App
+export default App;
