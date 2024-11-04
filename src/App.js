@@ -14,6 +14,9 @@ const cardImages = [
 function App() {
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
+  const [choiceOne, setChoiceOne] = useState (null)
+  const [choiceTwo, setChoiceTwo] = useState(null)
+
 
   const shuffleCards = () => {
     const shuffledCards = [...cardImages, ...cardImages]
@@ -22,6 +25,15 @@ function App() {
     setCards(shuffledCards);
     setTurns(0);
   };
+
+
+  // Handle a Choice
+
+  const handleChoice = (card) => {
+
+    choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
+
+  }
 
   // Shuffle cards when the component mounts
   useEffect(() => {
@@ -34,7 +46,7 @@ function App() {
       <button onClick={shuffleCards}>New Game</button>
       <div className='card-grid'>
         {cards.map(card => (
-          <SingleCard key={card.id} card={card}/>
+          <SingleCard key={card.id} card={card} handleChoice={handleChoice}/>
         ))}
       </div>
     </div>
