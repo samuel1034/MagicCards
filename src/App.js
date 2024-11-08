@@ -35,6 +35,29 @@ function App() {
 
   }
 
+  //Compare 2 selected cards
+useEffect (() => {
+  if (choiceOne && choiceTwo) {
+    setTurns(turns + 1);
+    if (choiceOne.src === choiceTwo.src) {
+      console.log("You got a match");
+      resetTurn();
+    } else {
+      console.log("No match, try again");
+      resetTurn();
+    }
+  }    
+},[choiceOne,choiceTwo])
+
+// Reset Choices and Increase Turns
+
+  const resetTurn = () => {
+    setChoiceOne(null);
+    setChoiceTwo(null);
+    setTurns(prevturns => prevturns + 1);
+  }
+
+
   // Shuffle cards when the component mounts
   useEffect(() => {
     shuffleCards();
